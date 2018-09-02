@@ -1,4 +1,4 @@
-package src
+package errors_benchmarks
 
 import (
 	"testing"
@@ -51,7 +51,7 @@ func TestStackTraceContainsAllInfoNeeded(t *testing.T) {
 			_, err := test.service.Find(1)
 
 			stacktrace := fmt.Sprintf("%+v", err)
-			assert.EqualValues(t, test.stacktracesCount, strings.Count(stacktrace, "github.com/brainly/errors-benchmarks/src.(*SimilarUserService).Find"))
+			assert.EqualValues(t, test.stacktracesCount, strings.Count(stacktrace, "github.com/brainly/errors-benchmarks.(*SimilarUserService).Find"))
 
 			fmt.Println(stacktrace)
 		})
@@ -70,8 +70,8 @@ func BenchmarkSimilarUser_Find(b *testing.B) {
 
 func BenchmarkErrorsWrappersWithoutContext(b *testing.B) {
 	benchmarks := []struct {
-		name string
-		wrapper  func(err error, mgs string) error
+		name    string
+		wrapper func(err error, mgs string) error
 	}{
 		{"errors.WithMessage", errors.WithMessage},
 		{"errors.Wrap", errors.Wrap},
@@ -80,7 +80,25 @@ func BenchmarkErrorsWrappersWithoutContext(b *testing.B) {
 		var err error
 		b.Run(bm.name, func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				err = bm.wrapper(stdErrors.New("err"), "dsa")
+				err = bm.wrapper(stdErrors.New("err"), "err2")
+			}
+		})
+	}
+}
+
+func BenchmarkDoubleErrorsWrappersWithoutContext(b *testing.B) {
+	benchmarks := []struct {
+		name    string
+		wrapper func(err error, mgs string) error
+	}{
+		{"errors.WithMessage", errors.WithMessage},
+		{"errors.Wrap", errors.Wrap},
+	}
+	for _, bm := range benchmarks {
+		var err error
+		b.Run(bm.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				err = bm.wrapper(stdErrors.New("err"), "err2")
 			}
 		})
 	}

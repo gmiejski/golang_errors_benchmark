@@ -1,4 +1,4 @@
-package src
+package errors_benchmarks
 
 import "github.com/pkg/errors"
 

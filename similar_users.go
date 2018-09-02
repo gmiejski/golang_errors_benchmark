@@ -1,4 +1,4 @@
-package src
+package errors_benchmarks
 
 import (
 	standardErrors "errors"
