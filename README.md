@@ -61,4 +61,4 @@ My proposal is to :
 * Use `errors.WithMessage` in your code elsewhere to add some more information for error
 * Use `errors.New` from `dpg/errors` to produce new errors with stacktrace from the beginning
 
-tried this approach and it works fine. Of course isn't perfect when 3rd party library already returns `dpg/errors`, but this has been covered already on many different issues at github.
+tried this approach and it works fine. Of course isn't perfect when 3rd party library already returns `dpg/errors`, but this has been covered already on many different issues at github (like [this one](https://github.com/pkg/errors/issues/144#issuecomment-354554983))
